@@ -1,5 +1,8 @@
 ﻿namespace NumbersToWords
 {
+    /// <summary>
+    /// A class holding the necessary data and utility functions to translate a number to its word form
+    /// </summary>
     public class NTWContainer
     {
         //to store the word conversions of a number
@@ -57,10 +60,76 @@
         /// <param name="numberInputed"></param>
         void MainAlgo(string numberInputed)
         {
-            //split decimal 
-            //
+      
+      
         }
 
         //method to do the main recursion 
+        string TranslateNumberToWord(int depth, ref string mainNumberPool)
+        {
+            string localTranslatedNumber = string.Empty;
+            //increase depth
+            depth++;
+
+            //if the number pool is empty return
+            if (mainNumberPool == string.Empty)
+            {
+                return string.Empty;
+            }
+
+            //extract next set of numbers from the pool
+            string numberSet = ExtractNextSetOfNumbers(ref mainNumberPool, depth);
+
+            //go down deeper
+            string recursedTransResult = TranslateNumberToWord (depth, ref mainNumberPool);
+            
+            //translate each number to their corrosponding position
+
+
+            //check what depth and add the necessary prefix 
+
+            return "";
+        }
+
+        /// <summary>
+        /// return a string at a max length of 3
+        /// </summary>
+        /// <param name="numberPool"></param>
+        /// <param name="depth"></param>
+        /// <returns></returns>
+        string ExtractNextSetOfNumbers(ref string numberPool, int depthCounter)
+        {
+            //for cents specifically
+            if (depthCounter == 0)
+            {
+                string[] centsSeparated = new string[2];
+
+                centsSeparated = numberPool.Split('.', 2);
+                numberPool = centsSeparated[0];
+
+                return centsSeparated[1];
+            }
+
+            int numberLength = numberPool.Length;
+
+            if (numberLength <= 3)
+            {
+                numberPool = string.Empty; //
+                return numberPool;
+            }
+
+            //extract the 3 end numbers from the number pool
+            int numberExtractEndPoint = numberLength - 3;
+
+            string extractedNumber = string.Empty;
+
+            for (int i = numberLength - 1; i > numberExtractEndPoint - 1; i--)
+            {
+                extractedNumber = numberPool[i] + extractedNumber; //adds each number to the front of the string due to working from back to front
+                numberPool = numberPool.Remove(i); //removes the number from the overall pool
+            }
+
+            return extractedNumber;
+        }
     }
 }
