@@ -1,0 +1,19 @@
+﻿@NumbersToWords_HostAddress = https://localhost:7177
+
+POST {{NumbersToWords_HostAddress}}/numspost
+Content-Type: application/json
+
+{
+  "NumInput" : 205,
+  "NumConvertedOutput" : "sdsa"
+}
+
+###
+
+GET {{NumbersToWords_HostAddress}}/nums
+
+###
+
+GET {{NumbersToWords_HostAddress}}/nums/1
+
+###
