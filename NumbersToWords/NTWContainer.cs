@@ -95,7 +95,7 @@
 
                 finalTranslatedNumber += translatedNumber[i];
 
-                if (i == translatedNumber.Length - 2)
+                if (i + 1 != translatedNumber.Length - 1)
                 {
                     finalTranslatedNumber += " AND ";
                 }
@@ -225,7 +225,7 @@
                 bool isFinalElement = endpoint - i == 0;
 
                 //add necessary suffix only if its not the last element
-                if (!isFinalElement && i < suffixToApplyAfterEachNumberType.Length)
+                if (!isFinalElement && i < suffixToApplyAfterEachNumberType.Length && numbersCollected[i + 1] != string.Empty)
                 {
                     finalNumberWordTranslated += suffixToApplyAfterEachNumberType[i];
                 }
