@@ -28,6 +28,8 @@ app.MapGet("/nums/{id}", (int id, NumToWordDb db) => GetNTW(id, db));
 
 app.MapPost("/numspost", (NumToWord ntw, NumToWordDb db) => PostNewNTW(ntw, db));
 
+app.MapPut("/nums/{id}", (int id, NumToWord ntw, NumToWordDb db) => TranslateNumberToWord(id, ntw, db));
+
 app.Run();
 
 async Task<IResult> PostNewNTW(NumToWord ntw, NumToWordDb db)
@@ -42,18 +44,28 @@ async Task<NumToWord> GetNTW(int ntwID, NumToWordDb db)
 {
     NumToWord? ntw = db.NumToWords.Find(ntwID);
 
-    //activate algorithm  
-    string translatedNumber = ntwContainer.mainAlgo(ntw.NumInput);
+    /*if(ntw.NumConvertedOutput == string.Empty)
+    {*/
+        //activate algorithm  
+        string translatedNumber = ntwContainer.mainAlgo(ntw.NumInput);
 
-
-
+        ntw.NumConvertedOutput = translatedNumber;
+        db.SaveChanges();
+    //}
+    
     return ntw;
 }
 
-async Task<string> TranslateNumberToWord()
+async Task<IResult> TranslateNumberToWord(int id, NumToWord inputNtw, NumToWordDb db)
 {
-    
+    var ntw = await db.NumToWords.FindAsync(id);
 
+    if (ntw is null) return Results.NotFound();
 
-    return "";
+    ntw.NumInput = inputNtw.NumInput;
+    ntw.NumConvertedOutput = inputNtw.NumConvertedOutput;
+
+    await db.SaveChangesAsync();
+
+    return Results.NoContent();
 }

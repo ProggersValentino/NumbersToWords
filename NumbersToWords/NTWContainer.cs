@@ -95,7 +95,9 @@
 
                 finalTranslatedNumber += translatedNumber[i];
 
-                if (i + 1 != translatedNumber.Length - 1)
+                bool endpoint = (translatedNumber.Length - 1) - i == 1;
+
+                if (endpoint && translatedNumber[i+1] != string.Empty && translatedNumber[i+1] != null)
                 {
                     finalTranslatedNumber += " AND ";
                 }
@@ -197,9 +199,8 @@
                 return numberTranslatedToWord;
             }
 
-            inidivTranslatedNumbers[1] = ExtractUnitNumberWord(number[1], NumberTypes.tenth);
-
-            inidivTranslatedNumbers[2] = ExtractUnitNumberWord(number[2], NumberTypes.unit);
+            inidivTranslatedNumbers[1] = ExtractUnitNumberWord(tenthUnitValueSeparated[0], NumberTypes.tenth);
+            inidivTranslatedNumbers[2] = ExtractUnitNumberWord(tenthUnitValueSeparated[1], NumberTypes.unit);
 
             numberTranslatedToWord = PieceNumberWordTogether(inidivTranslatedNumbers);
 

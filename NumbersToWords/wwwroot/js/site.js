@@ -8,10 +8,14 @@ async function callapi() {
 
     //e.preventDefault();
 
+    const input = document.getElementById("numInput").value;
+
     const data = {
-        "NumInput": document.getElementById("numInput").value,
-        "NumConvertedOutput": "raaaaaaa"
+        "NumInput": input,
+        "NumConvertedOutput": ""
     };
+
+    document.getElementById("numInput").value = "";
 
 /*manually posting the data to the server*/
     const response = await fetch("/numspost",
@@ -39,5 +43,6 @@ async function extractNumberWord()
     const result = await response.json();
 
     const translatedNumberPara = document.getElementById("numbertrans");
+    translatedNumberPara.textContent = "";
     translatedNumberPara.textContent = result.numConvertedOutput;
 }
