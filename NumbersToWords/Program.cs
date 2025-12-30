@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using NumbersToWords;
 
+NTWContainer ntwContainer = new NTWContainer();
+
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     Args = args,
@@ -41,6 +43,9 @@ async Task<NumToWord> GetNTW(int ntwID, NumToWordDb db)
     NumToWord? ntw = db.NumToWords.Find(ntwID);
 
     //activate algorithm  
+    string translatedNumber = ntwContainer.mainAlgo(ntw.NumInput);
+
+
 
     return ntw;
 }
