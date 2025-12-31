@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace NumbersToWords
 {
@@ -33,6 +34,7 @@ namespace NumbersToWords
         {
             numberWordsData = new Dictionary<int, Dictionary<int, string>>
             {
+                //{0, new Dictionary<int, string> {{0, string.Empty}} },
                 {1, new Dictionary<int, string> {  {0, "ONE" } } },
                 {2, new Dictionary<int, string> {  {0, "TWO" }, { 1, "TWENTY" } } },
                 {3, new Dictionary<int, string> {  {0, "THREE" }, { 1, "THIRTY" } } },
@@ -56,11 +58,18 @@ namespace NumbersToWords
 
             depthStagesData = new Dictionary<int, string>
             {
-                {1, "CENTS"},
-                {2, "DOLLARS"},
                 {3, "THOUSAND"},
                 {4, "MILLION"},
                 {5, "BILLION"},
+                {6, "TRILLION"},
+                {7, "QUADRILLION"},
+                {8, "QUINTILLION"},
+                {9, "SEXTILLION"},
+                {10, "SEPTILLION"},
+                {11, "OCTILLION"},
+                {12, "NONILLION"},
+                {13, "DECILLION"},
+                {14, "UNDECILLION"},
             };
         }
 
@@ -78,36 +87,45 @@ namespace NumbersToWords
             string[] split = numberToString.Split('.', 2);
             string finalTranslatedNumber = "";
 
-            string[] translatedNumber = new string[2];
+            string centsResult = string.Empty;
+            string dollarResult = string.Empty;
+
+            string[] translatedNumber = { "* DOLLARS", "* CENTS"};
 
             //if the user inserted no cents then it will be caught by the try catch and then only execute the dollars 
             try
             {
-                translatedNumber[1] = TranslateNumberToWord(0, ref split[1]);
-                translatedNumber[0] = TranslateNumberToWord(1, ref split[0]);
+
+                centsResult = TranslateNumberToWord(1, ref split[1]).TrimEnd();
+                dollarResult = TranslateNumberToWord(1, ref split[0]).TrimEnd();
+
+                translatedNumber[1] = translatedNumber[1].Replace("*", centsResult);
+
+                translatedNumber[0] = translatedNumber[0].Replace("*", dollarResult);
             }
             catch (IndexOutOfRangeException e)
             {
-                translatedNumber[0] = TranslateNumberToWord(1, ref split[0]);
+                dollarResult = TranslateNumberToWord(1, ref split[0]);
+                translatedNumber[0] = translatedNumber[0].Replace("*", dollarResult);               
             }
 
-            //to ensure we have control over the formatting 
-            for (int i = 0; i < translatedNumber.Length; i++)
+            bool isValidCents = !string.IsNullOrEmpty(centsResult);
+            bool isValidDollars = !string.IsNullOrEmpty(dollarResult);
+
+
+            bool hasBothCentsAndDollars = isValidCents && isValidDollars;
+
+            if (hasBothCentsAndDollars)
             {
-                if (translatedNumber[i] == null || translatedNumber[i] == string.Empty)
-                {
-                    continue;
-                }
-
-                finalTranslatedNumber += translatedNumber[i];
-
-                bool endpoint = (translatedNumber.Length - 1) - i == 1;
-
-                if (endpoint && translatedNumber[i+1] != string.Empty && translatedNumber[i+1] != null)
-                {
-                    finalTranslatedNumber += " AND ";
-                }
-
+                finalTranslatedNumber = $"{translatedNumber[0]} AND {translatedNumber[1]}";
+            }
+            else if(isValidDollars) 
+            {
+                finalTranslatedNumber = $"{translatedNumber[0]}";
+            }
+            else
+            {
+                finalTranslatedNumber = $"{translatedNumber[1]}";
             }
 
             return finalTranslatedNumber;
@@ -133,12 +151,19 @@ namespace NumbersToWords
             //go down deeper and get the next set of numbers 
             string recursedTransResult = TranslateNumberToWord(depth, ref mainNumberPool);
 
+            string numberSetMadeIntoWord = MakeNumberWord(numberSet);
+
             //translate each number to their corrosponding position
-            localTranslatedNumber = $"{recursedTransResult} {MakeNumberWord(numberSet)}";
+            localTranslatedNumber = $"{recursedTransResult} {numberSetMadeIntoWord}";
             string finalResult = localTranslatedNumber.TrimStart();
+            finalResult = finalResult.TrimEnd();
 
             //add the necessary suffix based on the depth 
-            finalResult += $" {depthStagesData[depth]}";
+            if(depthStagesData.TryGetValue(depth, out string numberStageType) && numberSetMadeIntoWord != string.Empty)
+            {
+                finalResult += $" {numberStageType}";
+            }
+            
 
             return finalResult;
         }
@@ -179,6 +204,11 @@ namespace NumbersToWords
         {
             int numberLength = number.Length;
 
+            if(numberLength == 1 && int.Parse(number) == 0)
+            {
+                return string.Empty;
+            }
+
             string numberTranslatedToWord = string.Empty;
             string[] inidivTranslatedNumbers = new string[3];
 
@@ -194,7 +224,8 @@ namespace NumbersToWords
             }
 
 
-            int tenUnitValue = Int32.Parse(tenthUnitValueSeparated); //parse the rest of the number into a int value 
+            int tenUnitValue = Int32.Parse(tenthUnitValueSeparated); //parse the rest of the number into a int value
+                                                                     //
 
             //for single digit or any number between 10 - 19
             if (numberWordsData.TryGetValue(tenUnitValue, out Dictionary<int, string>? result))
@@ -261,7 +292,7 @@ namespace NumbersToWords
                 case NumberTypes.hundredth:
                     return $"{numberWordsData[unitValue][0]} HUNDRED";
                 default:
-                    return "Cant find translatin";
+                    return "Cant find translation";
             }
         }
     }

@@ -14,7 +14,7 @@ namespace NumberToWordsTests
             //setting environment up
             await using var context = new MockDb().CreateDbContext();
 
-            NumToWord ntw = new NumToWord(1, 0.15f, "");
+            NumToWord ntw = new NumToWord(1, 0.15m, "");
 
             var result = await NTWEndpoints.PostNewNTW(ntw, context);
 
@@ -100,15 +100,15 @@ namespace NumberToWordsTests
             //setting environment up
             await using var context = new MockDb().CreateDbContext();
 
-            NumToWord ntw = new NumToWord(1, 5.3e10, "");
+            NumToWord ntw = new NumToWord(1, 5.3e10m, "");
 
             var result = await NTWEndpoints.PostNewNTW(ntw, context);
 
             NumToWord translationResult = await NTWEndpoints.GetNTW(1, context);
 
-            string expectedTranslatedResult = "ONE HUNDRED DOLLARS";
+            string expectedTranslatedResult = "FIFTY-THREE BILLION DOLLARS";
 
-            Assert.AreEqual(expectedTranslatedResult, translationResult.NumConvertedOutput, "Incorrect translation for hundred dollars only");
+            Assert.AreEqual(expectedTranslatedResult, translationResult.NumConvertedOutput, "Incorrect translation for e notational numbers");
         }
     }
 }
