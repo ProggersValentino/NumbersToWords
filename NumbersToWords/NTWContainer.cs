@@ -1,4 +1,6 @@
-﻿namespace NumbersToWords
+﻿using System.Text.RegularExpressions;
+
+namespace NumbersToWords
 {
     /// <summary>
     /// A class holding the necessary data and utility functions to translate a number to its word form
@@ -13,6 +15,7 @@
         /// </summary>
         Dictionary<int, string>? depthStagesData;
 
+        
        
 
         enum NumberTypes
@@ -44,7 +47,7 @@
                 {12, new Dictionary<int, string> {  {0, "TWELVE" }} },
                 {13, new Dictionary<int, string> {  {0, "THIRTEEN" }} },
                 {14, new Dictionary<int, string> {  {0, "FOURTEEN" }} },
-                {15, new Dictionary<int, string> {  {0, "FIFTEEN" }} },
+                {15, new Dictionary<int, string> {  {0, "FIFTHTEEN" }} },
                 {16, new Dictionary<int, string> {  {0, "SIXTEEN" }} },
                 {17, new Dictionary<int, string> {  {0, "SEVENTEEN" }} },
                 {18, new Dictionary<int, string> {  {0, "EIGHTEEN" }} },
@@ -65,9 +68,12 @@
         /// starts the initial process to activate the recurrsion
         /// </summary>
         /// <param name="numberInputed"></param>
-        public string mainAlgo(float number)
+        public string mainAlgo(decimal number)
         {
-            string numberToString = number.ToString();  
+
+            string numberToString = number.ToString();
+
+            numberToString = Regex.Replace(numberToString, @"-+", ""); //rid of any foreign symbol 
 
             string[] split = numberToString.Split('.', 2);
             string finalTranslatedNumber = "";
@@ -129,11 +135,12 @@
 
             //translate each number to their corrosponding position
             localTranslatedNumber = $"{recursedTransResult} {MakeNumberWord(numberSet)}";
+            string finalResult = localTranslatedNumber.TrimStart();
 
             //add the necessary suffix based on the depth 
-            localTranslatedNumber += $" {depthStagesData[depth]}";
+            finalResult += $" {depthStagesData[depth]}";
 
-            return localTranslatedNumber;
+            return finalResult;
         }
 
         /// <summary>
@@ -216,7 +223,7 @@
 
             for (int i = 0; i < endpoint; i++)
             {
-                if (numbersCollected[i] == null)
+                if (numbersCollected[i] == null || numbersCollected[i] == string.Empty)
                 {
                     continue;
                 }
