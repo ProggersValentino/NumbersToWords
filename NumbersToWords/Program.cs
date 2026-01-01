@@ -9,8 +9,8 @@ NTWContainer ntwContainer = new NTWContainer();
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     Args = args,
-    // Look for static files in webroot
-    WebRootPath = "webroot"
+    /*// Look for static files in webroot
+    WebRootPath = "webroot"*/
 });
 
 builder.Services.AddDbContext<NumToWordDb>(opt => opt.UseInMemoryDatabase("NTWList"));

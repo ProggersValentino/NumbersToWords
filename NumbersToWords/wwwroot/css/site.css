@@ -1,0 +1,107 @@
+﻿body {
+    background-color: #FFFFEA;
+    
+}
+
+h1 {
+    color: #3E363F;
+}
+
+.title-container {
+    justify-content: center;
+}
+.form-container
+{
+    justify-items: center;
+    justify-content: center;
+    justify-self: center;
+    width: 650px;
+    
+}
+.form {
+    width: 100%;
+}
+
+.result-container {
+    justify-items: center;
+    justify-content: center;
+    justify-self: center;
+    padding: 50px;
+    width: 642px;
+    height: 300px;
+}
+
+.result-container-inner {
+    background-color: white;
+    border-radius: 12px;
+    border: 5px solid rgba(169, 233, 239, 0.75);
+    padding: 20px;
+    width: 100%;
+    height: 100%
+}
+
+.result-content {
+    font-weight: bold;
+    font-size: 30px;
+    text-align: right;
+    text-wrap: pretty;
+    color: #3E363F;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    width: 100%;
+    padding: 5px;
+    margin: 10px 0;
+    font-size: 30px;
+    outline: none;
+    box-shadow: none;
+    transition: 0.3s;
+    border-radius: 12px;
+    border: 5px solid rgba(169, 233, 239, 0.75);
+}
+
+    input[type=number]:focus {
+        border: 5px solid #5ad4e0;
+        border-radius: 12px;
+        font-size: 40px;
+    }
+
+    input[type=number]:hover {
+        font-size: 40px;
+    }
+
+.TitleText
+{
+    text-align: center;
+    
+}
+
+.btn-container{
+    justify-content: center;
+    justify-self: center;
+    display: flex;
+    width: 100%;
+}
+
+button[type="submit"] {
+    padding: 8px;
+    border-radius: 12px;
+    border: 3px solid rgb(0, 0, 0, 0.5);
+    font-weight: bold;
+    font-size: 20px;
+    width: 40%;
+    background-color: #227C9D;
+    color: #FFFFEA;
+}
+
+button[type="submit"]:disabled
+{
+    background-color: grey;
+    cursor: not-allowed;
+}
