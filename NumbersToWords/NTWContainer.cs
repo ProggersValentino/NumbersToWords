@@ -16,9 +16,6 @@ namespace NumbersToWords
         /// </summary>
         Dictionary<int, string>? depthStagesData;
 
-        
-       
-
         enum NumberTypes
         {
             unit, tenth, hundredth
@@ -79,7 +76,7 @@ namespace NumbersToWords
         /// <param name="numberInputed"></param>
         public string mainAlgo(decimal number)
         {
-
+            //setting up the number for the algorithm by splitting it and clearing any unecessary symbols 
             string numberToString = number.ToString();
 
             numberToString = Regex.Replace(numberToString, @"-+", ""); //rid of any foreign symbol 
@@ -95,7 +92,6 @@ namespace NumbersToWords
             //if the user inserted no cents then it will be caught by the try catch and then only execute the dollars 
             try
             {
-
                 centsResult = TranslateNumberToWord(1, ref split[1]).TrimEnd();
                 dollarResult = TranslateNumberToWord(1, ref split[0]).TrimEnd();
 
@@ -115,6 +111,8 @@ namespace NumbersToWords
 
             bool hasBothCentsAndDollars = isValidCents && isValidDollars;
 
+
+            //based on the results what format will be chosen and which 
             if (hasBothCentsAndDollars)
             {
                 finalTranslatedNumber = $"{translatedNumber[0]} AND {translatedNumber[1]}";
@@ -131,7 +129,12 @@ namespace NumbersToWords
             return finalTranslatedNumber;
         }
 
-        //method to do the main recursion 
+        /// <summary>
+        /// given the pool of numbers in a string recursively break down the number into sets of threes and translate them to their word form
+        /// </summary>
+        /// <param name="depth"></param>
+        /// <param name="mainNumberPool"></param>
+        /// <returns></returns>
         string TranslateNumberToWord(int depth, ref string mainNumberPool)
         {
             string localTranslatedNumber = string.Empty;
@@ -169,19 +172,20 @@ namespace NumbersToWords
         }
 
         /// <summary>
-        /// return a string at a max length of 3
+        /// extracts three numbers and removes them from the numberpool
         /// </summary>
-        /// <param name="numberPool"></param>
-        /// <param name="depth"></param>
-        /// <returns></returns>
+        /// <param name="numberPool">collection of numbers within a string</param>
+        /// <param name="depth">how deep recursively has the algorithm tranversed through. Every time the algorithm recurses it adds 1 to the depth</param>
+        /// <returns>a string at a max length of 3 containing the number pulled from the number pool</returns>
         string ExtractNextSetOfNumbers(ref string numberPool, int depthCounter)
         {
             int numberLength = numberPool.Length;
 
+            //if the total pool left is less or equal to three just return the pool
             if (numberLength <= 3)
             {
                 string nextSet = numberPool;
-                numberPool = string.Empty; //
+                numberPool = string.Empty; 
                 return nextSet;
             }
 
@@ -200,6 +204,11 @@ namespace NumbersToWords
         }
 
 
+        /// <summary>
+        /// When 3 numbers have been extracted from the 
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         string MakeNumberWord(string? number)
         {
             int numberLength = number.Length;
@@ -211,7 +220,6 @@ namespace NumbersToWords
 
             string numberTranslatedToWord = string.Empty;
             string[] inidivTranslatedNumbers = new string[3];
-
 
             bool isInHundreds = numberLength == 3;
             string tenthUnitValueSeparated = number;
@@ -225,7 +233,6 @@ namespace NumbersToWords
 
 
             int tenUnitValue = Int32.Parse(tenthUnitValueSeparated); //parse the rest of the number into a int value
-                                                                     //
 
             //for single digit or any number between 10 - 19
             if (numberWordsData.TryGetValue(tenUnitValue, out Dictionary<int, string>? result))
@@ -240,11 +247,17 @@ namespace NumbersToWords
             inidivTranslatedNumbers[1] = ExtractUnitNumberWord(tenthUnitValueSeparated[0], NumberTypes.tenth);
             inidivTranslatedNumbers[2] = ExtractUnitNumberWord(tenthUnitValueSeparated[1], NumberTypes.unit);
 
+            //piece together each translated number into a single string
             numberTranslatedToWord = PieceNumberWordTogether(inidivTranslatedNumbers);
 
             return numberTranslatedToWord;
         }
 
+        /// <summary>
+        /// format together a single string with the given string collection of individual translated numbers 
+        /// </summary>
+        /// <param name="numbersCollected">a group individual string translations of numbers</param>
+        /// <returns>a single string joining all string in the array</returns>
         string PieceNumberWordTogether(string[] numbersCollected)
         {
             string finalNumberWordTranslated = string.Empty;
@@ -254,7 +267,8 @@ namespace NumbersToWords
 
             for (int i = 0; i < endpoint; i++)
             {
-                if (numbersCollected[i] == null || numbersCollected[i] == string.Empty)
+                //dont add to the final result if its null or empty
+                if (string.IsNullOrEmpty(numbersCollected[i]))
                 {
                     continue;
                 }
@@ -274,6 +288,12 @@ namespace NumbersToWords
             return finalNumberWordTranslated;
         }
 
+        /// <summary>
+        /// given the character and what type of number it is (unit, tenth, or hundredth) find its word translation from the numberWordsData Dictionary
+        /// </summary>
+        /// <param name="number">a single digit number from the set</param>
+        /// <param name="unitSymbolType">the type of number that char is whether its a unit, tenth, or hundredth</param>
+        /// <returns>a string that represents the number in word form</returns>
         string ExtractUnitNumberWord(char number, NumberTypes unitSymbolType)
         {
             int unitValue = (int)Char.GetNumericValue(number);
@@ -292,7 +312,8 @@ namespace NumbersToWords
                 case NumberTypes.hundredth:
                     return $"{numberWordsData[unitValue][0]} HUNDRED";
                 default:
-                    return "Cant find translation";
+                    Console.Error.WriteLine("Could not find the translation for the number character");
+                    return "";
             }
         }
     }
