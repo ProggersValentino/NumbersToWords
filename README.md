@@ -3,6 +3,8 @@ Translating a numerical value given to its word form
 
 ## Preqs
 - .Net 8.0
+- Visual Studio 2022 17.14.13 or higher
+- ASP.NET and web development workload 
 
 ---
 

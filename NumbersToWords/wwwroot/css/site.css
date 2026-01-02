@@ -6,6 +6,11 @@
 h1 {
     color: #3E363F;
 }
+p1 {
+    color: #3E363F;
+    font-weight: bold;
+    font-size: 18px;
+}
 
 .title-container {
     justify-content: center;
@@ -30,6 +35,7 @@ h1 {
     width: 642px;
     height: 300px;
 }
+
 
 .result-container-inner {
     background-color: white;
@@ -96,9 +102,19 @@ button[type="submit"] {
     font-weight: bold;
     font-size: 20px;
     width: 40%;
+    transition: 0.2s;
     background-color: #227C9D;
     color: #FFFFEA;
 }
+
+    button[type="submit"]:hover {
+        background-color: #47B0D7;
+        cursor: pointer;
+    }
+
+    button[type="submit"]::selection {
+        background-color: #1A5D75;
+    }
 
 button[type="submit"]:disabled
 {

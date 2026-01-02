@@ -1,4 +1,4 @@
-﻿namespace NumbersToWords
+﻿namespace NumbersToWords.WebMinRouteGroup.data
 {
     public class NumToWord
     {

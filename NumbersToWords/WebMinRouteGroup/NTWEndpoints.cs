@@ -1,5 +1,4 @@
-﻿
-
+﻿using NumbersToWords.WebMinRouteGroup.data;
 
 namespace NumbersToWords.WebMinRouteGroup
 {
@@ -17,15 +16,22 @@ namespace NumbersToWords.WebMinRouteGroup
         {
             NumToWord? ntw = db.NumToWords.Find(ntwID);
 
-            /*if(ntw.NumConvertedOutput == string.Empty)
-            {*/
-            //activate algorithm  
-            NTWContainer ntwContainer = new NTWContainer();
-            string translatedNumber = ntwContainer.mainAlgo(ntw.NumInput);
+            try
+            {
+                //activate algorithm  
+                NTWContainer ntwContainer = new NTWContainer();
+                string translatedNumber = ntwContainer.StartTranslatingInputtedValue(ntw.NumInput);
 
-            ntw.NumConvertedOutput = translatedNumber;
+                ntw.NumConvertedOutput = translatedNumber;
+            }
+            catch(NullReferenceException e)
+            {
+                Console.WriteLine(e.Message);
+                ntw = new NumToWord(1, 0, "Please enter a valid number greater than 0!");
+            }
+            
             db.SaveChanges();
-            //}
+            
 
             return ntw;
         }

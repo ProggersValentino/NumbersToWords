@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using NumbersToWords;
 using NumbersToWords.WebMinRouteGroup;
+using NumbersToWords.WebMinRouteGroup.data;
 
 NTWContainer ntwContainer = new NTWContainer();
 

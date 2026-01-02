@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace NumbersToWords
+namespace NumbersToWords.WebMinRouteGroup.data
 {
     public class NumToWordDb : DbContext
     {

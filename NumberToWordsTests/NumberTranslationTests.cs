@@ -1,6 +1,6 @@
-﻿using NumbersToWords;
-using NumberToWordsTests.UnitTestHelpers;
+﻿using NumberToWordsTests.UnitTestHelpers;
 using NumbersToWords.WebMinRouteGroup;
+using NumbersToWords.WebMinRouteGroup.data;
 
 
 namespace NumberToWordsTests
@@ -110,5 +110,43 @@ namespace NumberToWordsTests
 
             Assert.AreEqual(expectedTranslatedResult, translationResult.NumConvertedOutput, "Incorrect translation for e notational numbers");
         }
+
+        [TestMethod]
+        public async Task NTW_MaxPossibleNumber()
+        {
+            //setting environment up
+            await using var context = new MockDb().CreateDbContext();
+
+            NumToWord ntw = new NumToWord(1, decimal.MaxValue, "");
+
+            var result = await NTWEndpoints.PostNewNTW(ntw, context);
+
+            NumToWord translationResult = await NTWEndpoints.GetNTW(1, context);
+
+            string expectedTranslatedResult = "SEVENTY-NINE OCTILLION TWO HUNDRED AND TWENTY-EIGHT SEPTILLION ONE HUNDRED " +
+                "AND SIXTY-TWO SEXTILLION FIVE HUNDRED AND FOURTEEN QUINTILLION TWO HUNDRED AND SIXTY-FOUR QUADRILLION THREE " +
+                "HUNDRED AND THIRTY-SEVEN TRILLION FIVE HUNDRED AND NINETY-THREE BILLION FIVE HUNDRED AND FOURTY-THREE MILLION NINE HUNDRED AND " +
+                "FIFTY THOUSAND THREE HUNDRED AND THIRTY-FIVE DOLLARS";
+
+            Assert.AreEqual(expectedTranslatedResult, translationResult.NumConvertedOutput, "Incorrect translation for max number");
+        }
+
+        [TestMethod]
+        public async Task NTW_SmallestPositiveNumber()
+        {
+            //setting environment up
+            await using var context = new MockDb().CreateDbContext();
+
+            NumToWord ntw = new NumToWord(1, 0.00000000000000001m, "");
+
+            var result = await NTWEndpoints.PostNewNTW(ntw, context);
+
+            NumToWord translationResult = await NTWEndpoints.GetNTW(1, context);
+
+            string expectedTranslatedResult = "";
+
+            Assert.AreEqual(expectedTranslatedResult, translationResult.NumConvertedOutput, "Incorrect translation cents with no zeros proceeding the number");
+        }
+
     }
 }
