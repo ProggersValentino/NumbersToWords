@@ -15,7 +15,7 @@ Translating a numerical value given to its word form
 
 ## Build via Developer Powershell
 1. Open the project in Visual Studio and open the 'Developer Powershell' by navigating to 'Tools >> Command Line >> Developer Powershell'
-2. 'cd' into the 'NumbersToWords' project directory so you should be in the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
+2. If not already, 'cd' into the 'NumbersToWords' project directory. You should be in the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
 3. Enter 'dotnet restore' command 
 4. Enter 'dotnet build -c 'Release'' to build
 
@@ -35,4 +35,7 @@ http://localhost:5000
 
 ## Troubleshooting
 
-**Error**: Couldn't find a project to run; **Solution**: Ensure you have cd into the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
+**Issue:** Error: Couldn't find a project to run; **Solution:** Ensure you have cd into the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
+
+**Issue:** Visual studio directory isn't displaying the solution; **Solution:** Ensure you are cd in the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
+
