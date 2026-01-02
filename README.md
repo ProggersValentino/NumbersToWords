@@ -1,7 +1,7 @@
 # NumbersToWords
 Translating a numerical value given to its word form
 
-## Preqs
+## Prerequisites
 - .Net 8.0
 - Visual Studio 2022 17.14.13 or higher
 - ASP.NET and web development workload 
@@ -15,7 +15,7 @@ Translating a numerical value given to its word form
 
 ## Build via Developer Powershell
 1. Open the project in Visual Studio and open the 'Developer Powershell' by navigating to 'Tools >> Command Line >> Developer Powershell'
-2. 'cd' into the 'NumbersToWords' directory 
+2. 'cd' into the 'NumbersToWords' project directory so you should be in the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
 3. Enter 'dotnet restore' command 
 4. Enter 'dotnet build -c 'Release'' to build
 
@@ -33,4 +33,6 @@ http://localhost:5000
 3. Press the 'Translate' button
 4. API returns the translated value from the inputted numerical value
 
+## Troubleshooting
 
+**Error**: Couldn't find a project to run; **Solution**: Ensure you have cd into the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
