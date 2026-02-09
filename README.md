@@ -37,5 +37,5 @@ http://localhost:5000
 
 **Issue:** Error: Couldn't find a project to run; **Solution:** Ensure you have cd into the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
 
-**Issue:** Visual studio directory isn't displaying the solution; **Solution:** Ensure you are cd in the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
+**Issue:** Visual studio directory isn't displaying the solution; **Solution:** Ensure you have cd in the **directory path: '\NumbersToWords-main\NumbersToWords-main\NumbersToWords'** 
 
